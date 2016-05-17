@@ -19,6 +19,10 @@ var Ticket = sequelize.define('ticket', {
             key: 'id',
         },
     },
+}, {
+    indexes: [
+        {fields: ['eventId']},
+    ],
 });
 var Transaction = sequelize.define('transaction', {
     ticketId: {

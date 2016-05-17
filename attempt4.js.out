@@ -1,0 +1,163 @@
+Creating new cluster 9.3/regress ...
+  config /tmp/pg_virtualenv.w0iht6/postgresql/9.3/regress
+  data   /tmp/pg_virtualenv.w0iht6/data/9.3/regress
+  locale en_GB.UTF-8
+Warning: The socket directory for owners other than 'postgres'
+defaults to /tmp. You might want to change the unix_socket_directories parameter
+in postgresql.conf to a more secure directory.
+  port   5434
+Executing (default): CREATE TABLE IF NOT EXISTS "events" ("id"   SERIAL , "name" VARCHAR(255), "capacity" INTEGER, "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, PRIMARY KEY ("id"));
+Executing (default): SELECT i.relname AS name, ix.indisprimary AS primary, ix.indisunique AS unique, ix.indkey AS indkey, array_agg(a.attnum) as column_indexes, array_agg(a.attname) AS column_names, pg_get_indexdef(ix.indexrelid) AS definition FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND t.relkind = 'r' and t.relname = 'events' GROUP BY i.relname, ix.indexrelid, ix.indisprimary, ix.indisunique, ix.indkey ORDER BY i.relname;
+Executing (default): CREATE TABLE IF NOT EXISTS "tickets" ("id"   SERIAL , "eventId" INTEGER REFERENCES "events" ("id"), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, PRIMARY KEY ("id"));
+Executing (default): SELECT i.relname AS name, ix.indisprimary AS primary, ix.indisunique AS unique, ix.indkey AS indkey, array_agg(a.attnum) as column_indexes, array_agg(a.attname) AS column_names, pg_get_indexdef(ix.indexrelid) AS definition FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND t.relkind = 'r' and t.relname = 'tickets' GROUP BY i.relname, ix.indexrelid, ix.indisprimary, ix.indisunique, ix.indkey ORDER BY i.relname;
+Executing (default): CREATE INDEX "tickets_event_id" ON "tickets" ("eventId")
+Executing (default): CREATE TABLE IF NOT EXISTS "transactions" ("id"   SERIAL , "ticketId" INTEGER REFERENCES "tickets" ("id"), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, PRIMARY KEY ("id"));
+Executing (default): SELECT i.relname AS name, ix.indisprimary AS primary, ix.indisunique AS unique, ix.indkey AS indkey, array_agg(a.attnum) as column_indexes, array_agg(a.attname) AS column_names, pg_get_indexdef(ix.indexrelid) AS definition FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND t.relkind = 'r' and t.relname = 'transactions' GROUP BY i.relname, ix.indexrelid, ix.indisprimary, ix.indisunique, ix.indkey ORDER BY i.relname;
+Executing (default): INSERT INTO "events" ("id","name","capacity","createdAt","updatedAt") VALUES (DEFAULT,'Event 1',3,'2016-05-17 15:58:57.684 +00:00','2016-05-17 15:58:57.684 +00:00') RETURNING *;
+Executing (default): INSERT INTO "events" ("id","name","capacity","createdAt","updatedAt") VALUES (DEFAULT,'Event 2',3,'2016-05-17 15:58:57.685 +00:00','2016-05-17 15:58:57.685 +00:00') RETURNING *;
+Executing (default): INSERT INTO "events" ("id","name","capacity","createdAt","updatedAt") VALUES (DEFAULT,'Event 3',3,'2016-05-17 15:58:57.686 +00:00','2016-05-17 15:58:57.686 +00:00') RETURNING *;
+Executing (default): INSERT INTO "events" ("id","name","capacity","createdAt","updatedAt") VALUES (DEFAULT,'Event 4',3,'2016-05-17 15:58:57.686 +00:00','2016-05-17 15:58:57.686 +00:00') RETURNING *;
+Executing (default): INSERT INTO "events" ("id","name","capacity","createdAt","updatedAt") VALUES (DEFAULT,'Event 5',3,'2016-05-17 15:58:57.687 +00:00','2016-05-17 15:58:57.687 +00:00') RETURNING *;
+Executing (default): INSERT INTO "events" ("id","name","capacity","createdAt","updatedAt") VALUES (DEFAULT,'Event 6',3,'2016-05-17 15:58:57.687 +00:00','2016-05-17 15:58:57.687 +00:00') RETURNING *;
+Executing (default): INSERT INTO "events" ("id","name","capacity","createdAt","updatedAt") VALUES (DEFAULT,'Event 7',3,'2016-05-17 15:58:57.687 +00:00','2016-05-17 15:58:57.687 +00:00') RETURNING *;
+Executing (default): INSERT INTO "tickets" ("id","eventId","createdAt","updatedAt") VALUES (DEFAULT,1,'2016-05-17 15:58:57.776 +00:00','2016-05-17 15:58:57.776 +00:00') RETURNING *;
+Executing (default): INSERT INTO "tickets" ("id","eventId","createdAt","updatedAt") VALUES (DEFAULT,2,'2016-05-17 15:58:57.776 +00:00','2016-05-17 15:58:57.776 +00:00') RETURNING *;
+Executing (default): INSERT INTO "tickets" ("id","eventId","createdAt","updatedAt") VALUES (DEFAULT,3,'2016-05-17 15:58:57.776 +00:00','2016-05-17 15:58:57.776 +00:00') RETURNING *;
+Executing (default): INSERT INTO "tickets" ("id","eventId","createdAt","updatedAt") VALUES (DEFAULT,4,'2016-05-17 15:58:57.776 +00:00','2016-05-17 15:58:57.776 +00:00') RETURNING *;
+Executing (default): INSERT INTO "tickets" ("id","eventId","createdAt","updatedAt") VALUES (DEFAULT,5,'2016-05-17 15:58:57.776 +00:00','2016-05-17 15:58:57.776 +00:00') RETURNING *;
+Executing (default): INSERT INTO "tickets" ("id","eventId","createdAt","updatedAt") VALUES (DEFAULT,6,'2016-05-17 15:58:57.776 +00:00','2016-05-17 15:58:57.776 +00:00') RETURNING *;
+Executing (default): INSERT INTO "tickets" ("id","eventId","createdAt","updatedAt") VALUES (DEFAULT,7,'2016-05-17 15:58:57.776 +00:00','2016-05-17 15:58:57.776 +00:00') RETURNING *;
+Executing (a7176efb-cea2-4695-a692-7fa961b60500): START TRANSACTION;
+Executing (f604576b-65dd-4d19-8901-a982f11e6cc4): START TRANSACTION;
+Executing (6d7fe93a-0c5b-435e-9411-13996ca38147): START TRANSACTION;
+Executing (64c9d7d7-4639-4260-ae28-78fb7628168a): START TRANSACTION;
+Executing (226afe9f-196e-48fe-8bba-c5772f9d030f): START TRANSACTION;
+Executing (a7176efb-cea2-4695-a692-7fa961b60500): SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+Executing (f604576b-65dd-4d19-8901-a982f11e6cc4): SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+Executing (6d7fe93a-0c5b-435e-9411-13996ca38147): SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+Executing (64c9d7d7-4639-4260-ae28-78fb7628168a): SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+Executing (226afe9f-196e-48fe-8bba-c5772f9d030f): SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+Executing (a7176efb-cea2-4695-a692-7fa961b60500): SET autocommit = 1;
+Executing (f604576b-65dd-4d19-8901-a982f11e6cc4): SET autocommit = 1;
+Executing (6d7fe93a-0c5b-435e-9411-13996ca38147): SET autocommit = 1;
+Executing (64c9d7d7-4639-4260-ae28-78fb7628168a): SET autocommit = 1;
+Executing (226afe9f-196e-48fe-8bba-c5772f9d030f): SET autocommit = 1;
+Executing (a7176efb-cea2-4695-a692-7fa961b60500): SELECT
+        events.id,
+        events.capacity - COUNT(tickets.id) as count
+    FROM events LEFT JOIN tickets
+            ON tickets."eventId" = "events".id
+    WHERE events.id = 1
+    GROUP BY events.id, events.capacity
+Executing (f604576b-65dd-4d19-8901-a982f11e6cc4): SELECT
+        events.id,
+        events.capacity - COUNT(tickets.id) as count
+    FROM events LEFT JOIN tickets
+            ON tickets."eventId" = "events".id
+    WHERE events.id = 2
+    GROUP BY events.id, events.capacity
+Executing (6d7fe93a-0c5b-435e-9411-13996ca38147): SELECT
+        events.id,
+        events.capacity - COUNT(tickets.id) as count
+    FROM events LEFT JOIN tickets
+            ON tickets."eventId" = "events".id
+    WHERE events.id = 3
+    GROUP BY events.id, events.capacity
+Executing (64c9d7d7-4639-4260-ae28-78fb7628168a): SELECT
+        events.id,
+        events.capacity - COUNT(tickets.id) as count
+    FROM events LEFT JOIN tickets
+            ON tickets."eventId" = "events".id
+    WHERE events.id = 4
+    GROUP BY events.id, events.capacity
+Executing (226afe9f-196e-48fe-8bba-c5772f9d030f): SELECT
+        events.id,
+        events.capacity - COUNT(tickets.id) as count
+    FROM events LEFT JOIN tickets
+            ON tickets."eventId" = "events".id
+    WHERE events.id = 5
+    GROUP BY events.id, events.capacity
+[ { id: 3, count: '2' } ]
+EID: 3, COUNT: 2
+[ { id: 1, count: '2' } ]
+EID: 1, COUNT: 2
+[ { id: 4, count: '2' } ]
+EID: 4, COUNT: 2
+[ { id: 2, count: '2' } ]
+EID: 2, COUNT: 2
+Executing (6d7fe93a-0c5b-435e-9411-13996ca38147): INSERT INTO "tickets" ("id","eventId","createdAt","updatedAt") VALUES (DEFAULT,3,'2016-05-17 15:58:57.871 +00:00','2016-05-17 15:58:57.871 +00:00') RETURNING *;
+Executing (a7176efb-cea2-4695-a692-7fa961b60500): INSERT INTO "tickets" ("id","eventId","createdAt","updatedAt") VALUES (DEFAULT,1,'2016-05-17 15:58:57.871 +00:00','2016-05-17 15:58:57.871 +00:00') RETURNING *;
+Executing (64c9d7d7-4639-4260-ae28-78fb7628168a): INSERT INTO "tickets" ("id","eventId","createdAt","updatedAt") VALUES (DEFAULT,4,'2016-05-17 15:58:57.871 +00:00','2016-05-17 15:58:57.871 +00:00') RETURNING *;
+Executing (f604576b-65dd-4d19-8901-a982f11e6cc4): INSERT INTO "tickets" ("id","eventId","createdAt","updatedAt") VALUES (DEFAULT,2,'2016-05-17 15:58:57.872 +00:00','2016-05-17 15:58:57.872 +00:00') RETURNING *;
+[ { id: 5, count: '2' } ]
+EID: 5, COUNT: 2
+Executing (226afe9f-196e-48fe-8bba-c5772f9d030f): INSERT INTO "tickets" ("id","eventId","createdAt","updatedAt") VALUES (DEFAULT,5,'2016-05-17 15:58:57.883 +00:00','2016-05-17 15:58:57.883 +00:00') RETURNING *;
+Executing (6d7fe93a-0c5b-435e-9411-13996ca38147): INSERT INTO "transactions" ("id","ticketId","createdAt","updatedAt") VALUES (DEFAULT,8,'2016-05-17 15:58:57.884 +00:00','2016-05-17 15:58:57.884 +00:00') RETURNING *;
+Executing (a7176efb-cea2-4695-a692-7fa961b60500): INSERT INTO "transactions" ("id","ticketId","createdAt","updatedAt") VALUES (DEFAULT,9,'2016-05-17 15:58:57.884 +00:00','2016-05-17 15:58:57.884 +00:00') RETURNING *;
+Executing (64c9d7d7-4639-4260-ae28-78fb7628168a): INSERT INTO "transactions" ("id","ticketId","createdAt","updatedAt") VALUES (DEFAULT,10,'2016-05-17 15:58:57.884 +00:00','2016-05-17 15:58:57.884 +00:00') RETURNING *;
+Executing (f604576b-65dd-4d19-8901-a982f11e6cc4): INSERT INTO "transactions" ("id","ticketId","createdAt","updatedAt") VALUES (DEFAULT,11,'2016-05-17 15:58:57.884 +00:00','2016-05-17 15:58:57.884 +00:00') RETURNING *;
+Executing (6d7fe93a-0c5b-435e-9411-13996ca38147): COMMIT;
+Executing (a7176efb-cea2-4695-a692-7fa961b60500): COMMIT;
+Executing (64c9d7d7-4639-4260-ae28-78fb7628168a): COMMIT;
+Executing (f604576b-65dd-4d19-8901-a982f11e6cc4): COMMIT;
+Executing (226afe9f-196e-48fe-8bba-c5772f9d030f): INSERT INTO "transactions" ("id","ticketId","createdAt","updatedAt") VALUES (DEFAULT,12,'2016-05-17 15:58:57.903 +00:00','2016-05-17 15:58:57.903 +00:00') RETURNING *;
+Executing (409e5168-dd77-4839-a386-bfa1345e7a9e): START TRANSACTION;
+Executing (79c2612c-9685-4fcf-aa06-aeb75d1f4143): START TRANSACTION;
+1 FAILED
+4 FAILED
+2 FAILED
+SequelizeDatabaseError: could not serialize access due to read/write dependencies among transactions
+    at Query.formatError (/home/daniel/conc/node_modules/sequelize/lib/dialects/postgres/query.js:357:14)
+    at null.<anonymous> (/home/daniel/conc/node_modules/sequelize/lib/dialects/postgres/query.js:88:19)
+    at emitOne (events.js:90:13)
+    at emit (events.js:182:7)
+    at Query.handleError (/home/daniel/conc/node_modules/pg/lib/query.js:108:8)
+    at null.<anonymous> (/home/daniel/conc/node_modules/pg/lib/client.js:171:26)
+    at emitOne (events.js:90:13)
+    at emit (events.js:182:7)
+    at Socket.<anonymous> (/home/daniel/conc/node_modules/pg/lib/connection.js:109:12)
+    at emitOne (events.js:90:13)
+    at Socket.emit (events.js:182:7)
+    at readableAddChunk (_stream_readable.js:153:18)
+    at Socket.Readable.push (_stream_readable.js:111:10)
+    at TCP.onread (net.js:534:20)
+Executing (409e5168-dd77-4839-a386-bfa1345e7a9e): SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+Executing (79c2612c-9685-4fcf-aa06-aeb75d1f4143): SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+Executing (default): SELECT "id", "eventId", "createdAt", "updatedAt" FROM "tickets" AS "ticket";
+Executing (226afe9f-196e-48fe-8bba-c5772f9d030f): ROLLBACK;
+Executing (409e5168-dd77-4839-a386-bfa1345e7a9e): SET autocommit = 1;
+Executing (79c2612c-9685-4fcf-aa06-aeb75d1f4143): SET autocommit = 1;
+5 FAILED
+{ id: 1,
+  eventId: 1,
+  createdAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT),
+  updatedAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT) }
+{ id: 2,
+  eventId: 2,
+  createdAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT),
+  updatedAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT) }
+{ id: 3,
+  eventId: 3,
+  createdAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT),
+  updatedAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT) }
+{ id: 4,
+  eventId: 4,
+  createdAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT),
+  updatedAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT) }
+{ id: 5,
+  eventId: 5,
+  createdAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT),
+  updatedAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT) }
+{ id: 6,
+  eventId: 6,
+  createdAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT),
+  updatedAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT) }
+{ id: 7,
+  eventId: 7,
+  createdAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT),
+  updatedAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT) }
+{ id: 8,
+  eventId: 3,
+  createdAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT),
+  updatedAt: Tue May 17 2016 23:58:57 GMT+0800 (MYT) }
+Stopping cluster 9.3/regress...
